@@ -1,18 +1,8 @@
-import requests
-import os
+import os, requests
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
-
-def send_telegram_message(message):
-    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    payload = {
-        "chat_id": CHAT_ID,
-        "text": message
-    }
-    try:
-        response = requests.post(url, data=payload)
-        return response.status_code == 200
-    except Exception as e:
-        print(f"Error sending message: {e}")
-        return False
+def send_telegram_message(msg):
+    token = os.getenv("TELEGRAM_BOT_TOKEN")
+    chat = os.getenv("TELEGRAM_CHAT_ID")
+    if token and chat:
+        requests.post(f"https://api.telegram.org/bot{token}/sendMessage",
+                      data={"chat_id":chat, "text":msg})
